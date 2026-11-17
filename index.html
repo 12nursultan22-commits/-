@@ -79,14 +79,16 @@
       <p class="section__lead">Популярные ароматы. Уточняйте наличие и другие объёмы.</p>
       <!-- ЗАМЕНИТЕ: названия, объёмы и цены на свои -->
       <div class="products">
-        <article class="product">
+        <article class="product product--hit">
+          <span class="product__hit">Хит продаж</span>
           <p class="product__brand">Chanel</p>
           <h3 class="product__name">Coco Mademoiselle</h3>
           <p class="product__meta">EDP · 100 мл</p>
           <p class="product__price">85 000 ₸</p>
           <a href="#order" class="product__btn" data-product="Chanel Coco Mademoiselle">Заказать</a>
         </article>
-        <article class="product">
+        <article class="product product--hit">
+          <span class="product__hit">Хит продаж</span>
           <p class="product__brand">Dior</p>
           <h3 class="product__name">Sauvage</h3>
           <p class="product__meta">EDP · 100 мл</p>
@@ -166,6 +168,14 @@
         </label>
         <button type="submit" class="btn btn--dark">Отправить заявку</button>
       </form>
+      <div class="payment">
+        <p class="payment__title">Способы оплаты</p>
+        <div class="payment__list">
+          <div class="pay pay--kaspi"><span class="pay__icon">K</span><span>Kaspi Bank<small>Kaspi Gold · перевод · QR</small></span></div>
+          <div class="pay pay--red"><span class="pay__icon">K</span><span>Kaspi Red<small>Рассрочка</small></span></div>
+          <div class="pay pay--halyk"><span class="pay__icon">H</span><span>Halyk Bank<small>Народный банк</small></span></div>
+        </div>
+      </div>
     </section>
 
     <!-- Контакты -->
