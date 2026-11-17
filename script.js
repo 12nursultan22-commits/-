@@ -1,5 +1,5 @@
 // ЗАМЕНИТЕ на свой номер WhatsApp: только цифры, с кодом страны, без «+»
-const WHATSAPP_NUMBER = "77000000000";
+const WHATSAPP_NUMBER = "77758606286";
 
 const waLink = (text) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
