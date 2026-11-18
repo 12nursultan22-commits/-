@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#6c5ce7">
+  <title>Трекер привычек</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div>
+        <h1>Трекер привычек</h1>
+        <p class="today" id="today"></p>
+      </div>
+      <button class="btn btn-primary" id="addBtn" aria-label="Добавить привычку">＋ Новая</button>
+    </header>
+
+    <section class="summary" id="summary">
+      <div class="stat"><span class="stat-val" id="statDone">0/0</span><span class="stat-lbl">сегодня</span></div>
+      <div class="stat"><span class="stat-val" id="statBest">0</span><span class="stat-lbl">лучшая серия</span></div>
+      <div class="stat"><span class="stat-val" id="statWeek">0%</span><span class="stat-lbl">за неделю</span></div>
+    </section>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+    <section id="list" class="list"></section>
+
+    <div class="empty" id="empty" hidden>
+      <div class="empty-icon">🌱</div>
+      <p>Пока нет привычек.<br>Добавьте первую — например, «Пить воду» или «Читать 20 минут».</p>
+      <button class="btn btn-primary" id="emptyAdd">Добавить привычку</button>
+    </div>
+
+    <footer class="foot">
+      <button class="link" id="exportBtn">Экспорт</button>
+      <button class="link" id="importBtn">Импорт</button>
+      <input type="file" id="importFile" accept="application/json" hidden>
+    </footer>
+  </main>
+
+  <dialog id="dlg">
+    <form method="dialog" id="form">
+      <h2 id="dlgTitle">Новая привычка</h2>
+      <label class="field">
+        <span>Название</span>
+        <input id="fName" maxlength="40" required placeholder="Например, утренняя зарядка">
+      </label>
+      <div class="field">
+        <span>Иконка</span>
+        <div class="choices" id="emojiChoices"></div>
+      </div>
+      <div class="field">
+        <span>Цвет</span>
+        <div class="choices" id="colorChoices"></div>
+      </div>
+      <div class="field">
+        <span>Цель: дней в неделю</span>
+        <div class="goal">
+          <input type="range" id="fGoal" min="1" max="7" value="7">
+          <output id="goalOut">7</output>
+        </div>
+      </div>
+      <div class="dlg-actions">
+        <button type="button" class="btn btn-danger" id="delBtn" hidden>Удалить</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn" id="cancelBtn">Отмена</button>
+        <button type="submit" class="btn btn-primary" value="save">Сохранить</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
