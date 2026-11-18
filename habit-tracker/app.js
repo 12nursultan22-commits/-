@@ -1,8 +1,53 @@
 (() => {
   const KEY = 'habit-tracker-v1';
   const EMOJIS = ['💧','📚','🏃','🧘','🍎','💤','✍️','🎸','🧹','💊','🚭','🌿','💪','🧠','☀️','💰'];
-  const COLORS = ['#6c5ce7','#0984e3','#00b894','#fdcb6e','#e17055','#d63031','#e84393','#636e72'];
-  const DOW = ['вс','пн','вт','ср','чт','пт','сб'];
+  const COLORS = ['#ff7a00','#ffb020','#ff4d4f','#f5f5f5','#22c55e','#3b82f6','#a855f7','#ec4899'];
+  const LANG_KEY = 'habit-tracker-lang';
+
+  const I18N = {
+    ru: {
+      switchTo: 'ҚАЗ',
+      title: 'Трекер привычек', new: '＋ Новая', today: 'сегодня', best: 'лучшая серия', week: 'за неделю',
+      empty: 'Пока нет привычек.<br>Добавьте первую — например, «Пить воду» или «Читать 20 минут».',
+      addHabit: 'Добавить привычку', export: 'Экспорт', import: 'Импорт',
+      newHabit: 'Новая привычка', editHabit: 'Изменить привычку',
+      name: 'Название', namePh: 'Например, утренняя зарядка', icon: 'Иконка', color: 'Цвет',
+      goal: 'Цель: дней в неделю', del: 'Удалить', cancel: 'Отмена', save: 'Сохранить',
+      dow: ['вс','пн','вт','ср','чт','пт','сб'],
+      days: (n) => plural(n, 'день', 'дня', 'дней'),
+      fmtDate: (d) => d.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' }), weekShort: 'неделя',
+      markToday: 'Отметить сегодня', edit: 'Изменить', done: 'выполнено', notDone: 'не выполнено',
+      confirmDel: (n) => `Удалить привычку «${n}»? История отметок тоже будет удалена.`,
+      confirmImport: 'Заменить текущие данные импортированными?', importFail: 'Не удалось прочитать файл.',
+    },
+    kk: {
+      switchTo: 'РУС',
+      title: 'Әдеттер трекері', new: '＋ Жаңа', today: 'бүгін', best: 'үздік серия', week: 'аптада',
+      empty: 'Әзірге әдеттер жоқ.<br>Алғашқысын қосыңыз — мысалы, «Су ішу» немесе «20 минут кітап оқу».',
+      addHabit: 'Әдет қосу', export: 'Экспорт', import: 'Импорт',
+      newHabit: 'Жаңа әдет', editHabit: 'Әдетті өзгерту',
+      name: 'Атауы', namePh: 'Мысалы, таңғы жаттығу', icon: 'Белгіше', color: 'Түсі',
+      goal: 'Мақсат: аптасына неше күн', del: 'Жою', cancel: 'Болдырмау', save: 'Сақтау',
+      dow: ['жс','дс','сс','ср','бс','жм','сб'],
+      days: () => 'күн',
+      fmtDate: (d) => `${d.getDate()} ${['қаңтар','ақпан','наурыз','сәуір','мамыр','маусым','шілде','тамыз','қыркүйек','қазан','қараша','желтоқсан'][d.getMonth()]}, ${['жексенбі','дүйсенбі','сейсенбі','сәрсенбі','бейсенбі','жұма','сенбі'][d.getDay()]}`, weekShort: 'апта',
+      markToday: 'Бүгінді белгілеу', edit: 'Өзгерту', done: 'орындалды', notDone: 'орындалмады',
+      confirmDel: (n) => `«${n}» әдетін жою керек пе? Белгілер тарихы да жойылады.`,
+      confirmImport: 'Ағымдағы деректерді импортталған деректермен ауыстыру керек пе?', importFail: 'Файлды оқу мүмкін болмады.',
+    },
+  };
+  let lang = 'ru';
+  try { const l = localStorage.getItem(LANG_KEY); if (I18N[l]) lang = l; } catch (e) {}
+  const t = (k) => I18N[lang][k];
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.title = t('title');
+    document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
+    document.querySelectorAll('[data-i18n-ph]').forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
+    $('langBtn').textContent = t('switchTo');
+  }
 
   const $ = (id) => document.getElementById(id);
   const pad = (n) => String(n).padStart(2, '0');
@@ -66,7 +111,7 @@
 
   function render() {
     const now = new Date();
-    $('today').textContent = now.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
+    $('today').textContent = t('fmtDate')(now);
 
     const list = $('list');
     list.innerHTML = '';
@@ -94,15 +139,15 @@
       head.className = 'habit-head';
       head.innerHTML = `
         <div class="habit-icon"></div>
-        <div class="habit-info" title="Изменить">
+        <div class="habit-info" title="${t('edit')}">
           <div class="habit-name"></div>
           <div class="habit-meta"></div>
         </div>
-        <button class="check ${on ? 'on' : ''}" aria-pressed="${on}" aria-label="Отметить сегодня">${on ? '✓' : ''}</button>`;
+        <button class="check ${on ? 'on' : ''}" aria-pressed="${on}" aria-label="${t('markToday')}">${on ? '✓' : ''}</button>`;
       head.querySelector('.habit-icon').textContent = h.emoji;
       head.querySelector('.habit-name').textContent = h.name;
       head.querySelector('.habit-meta').textContent =
-        `🔥 ${s} ${plural(s, 'день', 'дня', 'дней')} · неделя ${wc}/${h.goal}`;
+        `🔥 ${s} ${t('days')(s)} · ${t('weekShort')} ${wc}/${h.goal}`;
       head.querySelector('.habit-info').onclick = () => openDialog(h.id);
       head.querySelector('.check').onclick = () => toggle(h.id, tk);
       el.appendChild(head);
@@ -116,11 +161,11 @@
         day.className = 'day';
         const lbl = document.createElement('span');
         lbl.className = 'day-lbl';
-        lbl.textContent = DOW[d.getDay()];
+        lbl.textContent = t('dow')[d.getDay()];
         const cell = document.createElement('button');
         cell.className = 'day-cell' + (h.done[k] ? ' on' : '') + (i === 0 ? ' is-today' : '');
         cell.textContent = d.getDate();
-        cell.setAttribute('aria-label', `${d.toLocaleDateString('ru-RU')}: ${h.done[k] ? 'выполнено' : 'не выполнено'}`);
+        cell.setAttribute('aria-label', `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}: ${h.done[k] ? t('done') : t('notDone')}`);
         cell.onclick = () => toggle(h.id, k);
         day.append(lbl, cell);
         week.appendChild(day);
@@ -159,7 +204,7 @@
   function openDialog(id = null) {
     editingId = id;
     const h = id && state.habits.find((x) => x.id === id);
-    $('dlgTitle').textContent = h ? 'Изменить привычку' : 'Новая привычка';
+    $('dlgTitle').textContent = h ? t('editHabit') : t('newHabit');
     $('fName').value = h ? h.name : '';
     $('fGoal').value = h ? h.goal : 7;
     $('goalOut').textContent = $('fGoal').value;
@@ -185,7 +230,7 @@
   $('cancelBtn').onclick = () => $('dlg').close();
   $('delBtn').onclick = () => {
     const h = state.habits.find((x) => x.id === editingId);
-    if (h && confirm(`Удалить привычку «${h.name}»? История отметок тоже будет удалена.`)) {
+    if (h && confirm(t('confirmDel')(h.name))) {
       state.habits = state.habits.filter((x) => x.id !== editingId);
       save(); render(); $('dlg').close();
     }
@@ -209,8 +254,8 @@
     try {
       const data = JSON.parse(await f.text());
       if (!Array.isArray(data.habits)) throw new Error();
-      if (confirm('Заменить текущие данные импортированными?')) { state = data; save(); render(); }
-    } catch { alert('Не удалось прочитать файл.'); }
+      if (confirm(t('confirmImport'))) { state = data; save(); render(); }
+    } catch { alert(t('importFail')); }
     e.target.value = '';
   };
 
@@ -218,5 +263,12 @@
   let lastDay = todayKey();
   setInterval(() => { if (todayKey() !== lastDay) { lastDay = todayKey(); render(); } }, 60000);
 
+  $('langBtn').onclick = () => {
+    lang = lang === 'ru' ? 'kk' : 'ru';
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+    applyLang(); render();
+  };
+
+  applyLang();
   render();
 })();

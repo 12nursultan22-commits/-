@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#6c5ce7">
+  <meta name="theme-color" content="#0b0b0b">
   <title>Трекер привычек</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,16 +11,19 @@
   <main class="app">
     <header class="top">
       <div>
-        <h1>Трекер привычек</h1>
+        <h1 data-i18n="title">Трекер привычек</h1>
         <p class="today" id="today"></p>
       </div>
-      <button class="btn btn-primary" id="addBtn" aria-label="Добавить привычку">＋ Новая</button>
+      <div class="top-actions">
+        <button class="btn lang" id="langBtn" aria-label="Тіл / Язык">ҚАЗ</button>
+        <button class="btn btn-primary" id="addBtn" data-i18n="new">＋ Новая</button>
+      </div>
     </header>
 
     <section class="summary" id="summary">
-      <div class="stat"><span class="stat-val" id="statDone">0/0</span><span class="stat-lbl">сегодня</span></div>
-      <div class="stat"><span class="stat-val" id="statBest">0</span><span class="stat-lbl">лучшая серия</span></div>
-      <div class="stat"><span class="stat-val" id="statWeek">0%</span><span class="stat-lbl">за неделю</span></div>
+      <div class="stat"><span class="stat-val" id="statDone">0/0</span><span class="stat-lbl" data-i18n="today">сегодня</span></div>
+      <div class="stat"><span class="stat-val" id="statBest">0</span><span class="stat-lbl" data-i18n="best">лучшая серия</span></div>
+      <div class="stat"><span class="stat-val" id="statWeek">0%</span><span class="stat-lbl" data-i18n="week">за неделю</span></div>
     </section>
     <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 
@@ -28,13 +31,13 @@
 
     <div class="empty" id="empty" hidden>
       <div class="empty-icon">🌱</div>
-      <p>Пока нет привычек.<br>Добавьте первую — например, «Пить воду» или «Читать 20 минут».</p>
-      <button class="btn btn-primary" id="emptyAdd">Добавить привычку</button>
+      <p data-i18n-html="empty"></p>
+      <button class="btn btn-primary" id="emptyAdd" data-i18n="addHabit">Добавить привычку</button>
     </div>
 
     <footer class="foot">
-      <button class="link" id="exportBtn">Экспорт</button>
-      <button class="link" id="importBtn">Импорт</button>
+      <button class="link" id="exportBtn" data-i18n="export">Экспорт</button>
+      <button class="link" id="importBtn" data-i18n="import">Импорт</button>
       <input type="file" id="importFile" accept="application/json" hidden>
     </footer>
   </main>
@@ -43,29 +46,29 @@
     <form method="dialog" id="form">
       <h2 id="dlgTitle">Новая привычка</h2>
       <label class="field">
-        <span>Название</span>
-        <input id="fName" maxlength="40" required placeholder="Например, утренняя зарядка">
+        <span data-i18n="name">Название</span>
+        <input id="fName" maxlength="40" required data-i18n-ph="namePh">
       </label>
       <div class="field">
-        <span>Иконка</span>
+        <span data-i18n="icon">Иконка</span>
         <div class="choices" id="emojiChoices"></div>
       </div>
       <div class="field">
-        <span>Цвет</span>
+        <span data-i18n="color">Цвет</span>
         <div class="choices" id="colorChoices"></div>
       </div>
       <div class="field">
-        <span>Цель: дней в неделю</span>
+        <span data-i18n="goal">Цель: дней в неделю</span>
         <div class="goal">
           <input type="range" id="fGoal" min="1" max="7" value="7">
           <output id="goalOut">7</output>
         </div>
       </div>
       <div class="dlg-actions">
-        <button type="button" class="btn btn-danger" id="delBtn" hidden>Удалить</button>
+        <button type="button" class="btn btn-danger" id="delBtn" data-i18n="del" hidden>Удалить</button>
         <span class="spacer"></span>
-        <button type="button" class="btn" id="cancelBtn">Отмена</button>
-        <button type="submit" class="btn btn-primary" value="save">Сохранить</button>
+        <button type="button" class="btn" id="cancelBtn" data-i18n="cancel">Отмена</button>
+        <button type="submit" class="btn btn-primary" value="save" data-i18n="save">Сохранить</button>
       </div>
     </form>
   </dialog>

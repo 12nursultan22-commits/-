@@ -1,24 +1,25 @@
 :root {
-  --bg: #f5f4fb; --card: #ffffff; --text: #1d1b2c; --muted: #6f6c85;
-  --line: #e6e4f0; --cell: #eeedf5; --accent: #6c5ce7; --danger: #e5484d;
-  --shadow: 0 1px 2px rgba(20,16,60,.06), 0 4px 16px rgba(20,16,60,.06);
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #12111a; --card: #1c1b27; --text: #ecebf5; --muted: #9a97b0;
-    --line: #2c2a3b; --cell: #272536; --shadow: none;
-  }
+  --bg: #0b0b0b; --card: #171717; --text: #f5f5f5; --muted: #a3a3a3;
+  --line: #2a2a2a; --cell: #242424; --accent: #ff7a00; --danger: #ff4d4f;
+  --shadow: 0 1px 0 rgba(255,122,0,.08), 0 6px 20px rgba(0,0,0,.5);
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
-  background: var(--bg); color: var(--text);
+  background: var(--bg);
+  background-image: radial-gradient(1200px 500px at 50% -200px, rgba(255,122,0,.18), transparent 70%);
+  background-attachment: fixed;
+  min-height: 100vh; color: var(--text);
   font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 .app { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; }
+.top-actions { display: flex; gap: 8px; align-items: center; }
+.lang { padding: 10px 12px; font-size: 14px; }
 .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 h1 { font-size: 26px; margin: 0; letter-spacing: -.02em; }
+h1 span { color: var(--accent); }
 .today { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 
 .btn {
@@ -27,7 +28,7 @@ h1 { font-size: 26px; margin: 0; letter-spacing: -.02em; }
   cursor: pointer; white-space: nowrap;
 }
 .btn:active { transform: scale(.97); }
-.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #111; }
 .btn-danger { color: var(--danger); }
 .link { background: none; border: 0; color: var(--muted); font: inherit; cursor: pointer; padding: 6px 10px; text-decoration: underline; }
 
@@ -78,7 +79,7 @@ dialog {
   border: 0; border-radius: 20px; padding: 0; width: min(440px, calc(100% - 32px));
   background: var(--card); color: var(--text); box-shadow: 0 20px 60px rgba(0,0,0,.3);
 }
-dialog::backdrop { background: rgba(10,8,30,.45); }
+dialog::backdrop { background: rgba(0,0,0,.7); }
 form { padding: 20px; }
 form h2 { margin: 0 0 16px; font-size: 20px; }
 .field { display: block; margin-bottom: 16px; }
@@ -106,3 +107,4 @@ form h2 { margin: 0 0 16px; font-size: 20px; }
   .stat-val { font-size: 18px; }
   .day-cell { font-size: 11px; border-radius: 8px; }
 }
+.field input:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
