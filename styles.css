@@ -244,3 +244,10 @@ a { color: inherit; text-decoration: none; }
   .payment { max-width: 760px; }
   .payment__list { grid-template-columns: repeat(3, 1fr); }
 }
+
+.review { display: flex; flex-direction: column; }
+.review cite { margin-top: auto; padding-top: 14px; }
+.review cite span { display: block; font-weight: 400; letter-spacing: .04em; color: var(--camel-dark); font-size: 12px; }
+@media (min-width: 760px) {
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+}
