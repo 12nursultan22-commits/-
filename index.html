@@ -77,91 +77,23 @@
     <section class="section section--tint" id="prices">
       <h2 class="section__title">Цены</h2>
       <p class="section__lead">Популярные ароматы. Уточняйте наличие и другие объёмы.</p>
-      <!-- ЗАМЕНИТЕ: названия, объёмы и цены на свои -->
-      <div class="products">
-        <article class="product product--hit">
-          <span class="product__hit">Хит продаж</span>
-          <p class="product__brand">Chanel</p>
-          <h3 class="product__name">Coco Mademoiselle</h3>
-          <p class="product__meta">EDP · 100 мл</p>
-          <p class="product__price">85 000 ₸</p>
-          <a href="#order" class="product__btn" data-product="Chanel Coco Mademoiselle">Заказать</a>
-        </article>
-        <article class="product product--hit">
-          <span class="product__hit">Хит продаж</span>
-          <p class="product__brand">Dior</p>
-          <h3 class="product__name">Sauvage</h3>
-          <p class="product__meta">EDP · 100 мл</p>
-          <p class="product__price">72 000 ₸</p>
-          <a href="#order" class="product__btn" data-product="Dior Sauvage">Заказать</a>
-        </article>
-        <article class="product">
-          <p class="product__brand">Tom Ford</p>
-          <h3 class="product__name">Lost Cherry</h3>
-          <p class="product__meta">EDP · 50 мл</p>
-          <p class="product__price">160 000 ₸</p>
-          <a href="#order" class="product__btn" data-product="Tom Ford Lost Cherry">Заказать</a>
-        </article>
-        <article class="product">
-          <p class="product__brand">Maison Francis Kurkdjian</p>
-          <h3 class="product__name">Baccarat Rouge 540</h3>
-          <p class="product__meta">EDP · 70 мл</p>
-          <p class="product__price">175 000 ₸</p>
-          <a href="#order" class="product__btn" data-product="MFK Baccarat Rouge 540">Заказать</a>
-        </article>
-        <article class="product">
-          <p class="product__brand">Creed</p>
-          <h3 class="product__name">Aventus</h3>
-          <p class="product__meta">EDP · 100 мл</p>
-          <p class="product__price">190 000 ₸</p>
-          <a href="#order" class="product__btn" data-product="Creed Aventus">Заказать</a>
-        </article>
-        <article class="product">
-          <p class="product__brand">Yves Saint Laurent</p>
-          <h3 class="product__name">Libre</h3>
-          <p class="product__meta">EDP · 90 мл</p>
-          <p class="product__price">68 000 ₸</p>
-          <a href="#order" class="product__btn" data-product="YSL Libre">Заказать</a>
-        </article>
+      <div class="filters" role="tablist">
+        <button class="chip active" data-filter="all">Все</button>
+        <button class="chip" data-filter="hit">Хиты</button>
+        <button class="chip" data-filter="women">Женские</button>
+        <button class="chip" data-filter="men">Мужские</button>
+        <button class="chip" data-filter="unisex">Унисекс</button>
       </div>
+      <input class="search" id="search" type="search" placeholder="Поиск: бренд или название" aria-label="Поиск аромата">
+      <!-- Карточки создаются из data.js или из админ-панели (Firebase) -->
+      <div class="products" id="products"></div>
+      <p class="empty" id="emptyProducts" hidden>Ничего не нашлось. Напишите нам — найдём нужный аромат.</p>
     </section>
 
     <!-- Отзывы -->
     <section class="section" id="reviews">
       <h2 class="section__title">Отзывы</h2>
-      <!-- ЧЕРНОВИК: придуманные примеры для пробной версии. Перед запуском заменить на настоящие отзывы клиентов -->
-      <div class="reviews">
-        <blockquote class="review">
-          <p class="review__stars">★★★★★</p>
-          <p>«Давно искала оригинальный Chanel и боялась нарваться на подделку. Здесь показали коробку, коды, всё объяснили. Аромат держится весь день!»</p>
-          <cite>Айгерим<span>Coco Mademoiselle</span></cite>
-        </blockquote>
-        <blockquote class="review">
-          <p class="review__stars">★★★★★</p>
-          <p>«Брал в подарок брату. Помогли выбрать, красиво упаковали, ещё и в рассрочку через Kaspi Red. Брат в восторге.»</p>
-          <cite>Данияр<span>Dior Sauvage</span></cite>
-        </blockquote>
-        <blockquote class="review">
-          <p class="review__stars">★★★★★</p>
-          <p>«Пришла на Сауран базар просто понюхать, ушла с флаконом 😊 Девушка-консультант очень приятная, подобрала аромат под меня.»</p>
-          <cite>Мадина<span>Baccarat Rouge 540</span></cite>
-        </blockquote>
-        <blockquote class="review">
-          <p class="review__stars">★★★★★</p>
-          <p>«Цены ниже, чем в Актобе, а качество то же — оригинал. Заказал через WhatsApp, всё быстро и без лишних вопросов.»</p>
-          <cite>Ерлан<span>Creed Aventus</span></cite>
-        </blockquote>
-        <blockquote class="review">
-          <p class="review__stars">★★★★★</p>
-          <p>«Покупаю здесь уже третий раз. Всегда честно, всегда оригинал. Теперь советую всем подругам.»</p>
-          <cite>Асель<span>YSL Libre</span></cite>
-        </blockquote>
-        <blockquote class="review">
-          <p class="review__stars">★★★★★</p>
-          <p>«Жене на день рождения. Сначала сомневался из-за цены, но аромат того стоит — шлейф шикарный. Спасибо Royal Select!»</p>
-          <cite>Нурлан<span>Tom Ford Lost Cherry</span></cite>
-        </blockquote>
-      </div>
+      <div class="reviews" id="reviewsList"></div>
     </section>
 
     <!-- Заказать -->
@@ -217,6 +149,6 @@
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
   </a>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

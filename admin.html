@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Админ-панель · Royal Select</title>
+  <meta name="theme-color" content="#C19A6B">
+  <link rel="icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin">
+
+  <!-- Нет настроек Firebase -->
+  <section class="a-card a-center" id="noConfig" hidden>
+    <img class="a-logo" src="images/logo.png" alt="Royal Select">
+    <h1 class="a-title">Админ-панель</h1>
+    <p class="a-muted">Админ-панель ещё не подключена. Заполните настройки Firebase в файле <b>firebase-config.js</b> — инструкция в файле <b>АДМИНКА.md</b>.</p>
+  </section>
+
+  <!-- Вход -->
+  <section class="a-card a-center" id="loginView" hidden>
+    <img class="a-logo" src="images/logo.png" alt="Royal Select">
+    <h1 class="a-title">Вход в админ-панель</h1>
+    <form id="loginForm" class="a-form">
+      <label>Логин (e-mail)
+        <input type="email" name="email" required autocomplete="username">
+      </label>
+      <label>Пароль
+        <input type="password" name="password" required autocomplete="current-password">
+      </label>
+      <p class="a-error" id="loginError" hidden></p>
+      <button class="btn btn--dark" type="submit">Войти</button>
+    </form>
+    <a class="a-link" href="./">← На сайт</a>
+  </section>
+
+  <!-- Панель -->
+  <div id="panel" hidden>
+    <header class="a-header">
+      <img src="images/logo.png" alt="Royal Select">
+      <div class="a-header__right">
+        <a class="a-link" href="./" target="_blank">Открыть сайт ↗</a>
+        <button class="a-btn" id="logoutBtn">Выйти</button>
+      </div>
+    </header>
+
+    <nav class="a-tabs">
+      <button class="a-tab active" data-tab="products">Ароматы <span id="countProducts"></span></button>
+      <button class="a-tab" data-tab="reviews">Отзывы <span id="countReviews"></span></button>
+    </nav>
+
+    <main class="a-main">
+      <p class="a-toast" id="toast" hidden></p>
+
+      <!-- Ароматы -->
+      <section id="tab-products">
+        <div class="a-toolbar">
+          <input class="search" id="aSearch" type="search" placeholder="Поиск аромата">
+          <button class="btn" id="addProduct">+ Добавить аромат</button>
+        </div>
+        <div class="a-seed" id="seedProducts" hidden>
+          <p>В базе пока нет ароматов.</p>
+          <button class="a-btn" data-seed="products">Загрузить начальные данные</button>
+        </div>
+        <ul class="a-list" id="productList"></ul>
+      </section>
+
+      <!-- Отзывы -->
+      <section id="tab-reviews" hidden>
+        <div class="a-toolbar">
+          <button class="btn" id="addReview">+ Добавить отзыв</button>
+        </div>
+        <div class="a-seed" id="seedReviews" hidden>
+          <p>В базе пока нет отзывов.</p>
+          <button class="a-btn" data-seed="reviews">Загрузить примеры отзывов</button>
+        </div>
+        <ul class="a-list" id="reviewList"></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- Окно: аромат -->
+  <dialog class="a-dialog" id="productDialog">
+    <form method="dialog" class="a-form" id="productForm">
+      <h2 class="a-title" id="productDialogTitle">Аромат</h2>
+      <label>Бренд <input name="brand" required placeholder="Dior"></label>
+      <label>Название <input name="name" required placeholder="Sauvage"></label>
+      <label>Объём <input name="volume" placeholder="EDP · 100 мл"></label>
+      <label>Цена, ₸ <input name="price" type="number" min="0" step="100" inputmode="numeric" required placeholder="72000"></label>
+      <label>Для кого
+        <select name="category">
+          <option value="women">Женский</option>
+          <option value="men">Мужской</option>
+          <option value="unisex">Унисекс</option>
+        </select>
+      </label>
+      <label>Порядок (меньше — выше в списке) <input name="sort" type="number" inputmode="numeric" value="100"></label>
+      <label class="a-check"><input type="checkbox" name="hit"> Хит продаж</label>
+      <label class="a-check"><input type="checkbox" name="inStock" checked> В наличии</label>
+      <div class="a-actions">
+        <button class="a-btn" value="cancel" formnovalidate>Отмена</button>
+        <button class="btn btn--dark" value="save">Сохранить</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Окно: отзыв -->
+  <dialog class="a-dialog" id="reviewDialog">
+    <form method="dialog" class="a-form" id="reviewForm">
+      <h2 class="a-title" id="reviewDialogTitle">Отзыв</h2>
+      <label>Имя клиента <input name="name" required placeholder="Айгерим"></label>
+      <label>Аромат (необязательно) <input name="perfume" placeholder="Dior Sauvage"></label>
+      <label>Текст отзыва <textarea name="text" rows="5" required></textarea></label>
+      <label>Порядок (меньше — выше) <input name="sort" type="number" inputmode="numeric" value="100"></label>
+      <label class="a-check"><input type="checkbox" name="visible" checked> Показывать на сайте</label>
+      <div class="a-actions">
+        <button class="a-btn" value="cancel" formnovalidate>Отмена</button>
+        <button class="btn btn--dark" value="save">Сохранить</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
