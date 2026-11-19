@@ -14,6 +14,20 @@ const money = (n) => Number(n || 0).toLocaleString("ru-RU").replace(/ |,/g, " "
 // Разрешаем только картинки (сжатые в админке) или ссылки https
 const safeImg = (src) => typeof src === "string" && /^(data:image\/(jpeg|png|webp);base64,|https:\/\/)/.test(src);
 
+// Объёмы: «EDP · 100 мл» → на кнопке «100 мл»
+const shortVolume = (v) => (String(v).match(/\d+[.,]?\d*\s*(мл|ml)/i) || [v])[0];
+const hasTwo = (p) => p.volume2 && p.price2;
+const orderName = (p, volume) => `${p.brand} ${p.name}${volume ? `, ${volume}` : ""}`;
+function variantsHtml(p) {
+  if (!hasTwo(p)) return `<p class="product__meta">${esc(p.volume)}</p>`;
+  const opt = (v, price, on) =>
+    `<button type="button" class="vol${on ? " active" : ""}" data-volume="${esc(v)}" data-price="${Number(price) || 0}">${esc(shortVolume(v))}</button>`;
+  const ml = (v) => parseFloat(String(shortVolume(v)).replace(",", ".")) || 0;
+  const a = opt(p.volume, p.price, true), b = opt(p.volume2, p.price2, false);
+  // Меньший объём слева, выбран по умолчанию основной
+  return `<div class="product__vols">${ml(p.volume2) < ml(p.volume) ? b + a : a + b}</div>`;
+}
+
 // ---------- Ароматы ----------
 let products = DEFAULT_PRODUCTS;
 let filter = "all";
@@ -34,9 +48,9 @@ function renderProducts() {
         : '<img class="product__ph" src="images/logo.png" alt="">'}</div>
       <p class="product__brand">${esc(p.brand)}</p>
       <h3 class="product__name">${esc(p.name)}</h3>
-      <p class="product__meta">${esc(p.volume)}</p>
+      ${variantsHtml(p)}
       <p class="product__price">${p.inStock === false ? "Нет в наличии" : money(p.price)}</p>
-      <a href="#order" class="product__btn" data-product="${esc(`${p.brand} ${p.name}`)}">${p.inStock === false ? "Уточнить" : "Заказать"}</a>
+      <a href="#order" class="product__btn" data-product="${esc(orderName(p, p.volume))}">${p.inStock === false ? "Уточнить" : "Заказать"}</a>
     </article>`).join("");
   emptyEl.hidden = shown.length > 0;
 }
@@ -99,6 +113,17 @@ nav.querySelectorAll("a").forEach((a) =>
 // Кнопка «Заказать» у товара подставляет аромат в форму
 const productField = document.getElementById("productField");
 productsEl.addEventListener("click", (e) => {
+  const vol = e.target.closest(".vol");
+  if (vol) {
+    const card = vol.closest(".product");
+    card.querySelector(".vol.active")?.classList.remove("active");
+    vol.classList.add("active");
+    const order = card.querySelector("[data-product]");
+    order.dataset.product = order.dataset.product.replace(/, [^,]*$/, "") + ", " + vol.dataset.volume;
+    if (!card.classList.contains("product--out"))
+      card.querySelector(".product__price").textContent = money(vol.dataset.price);
+    return;
+  }
   const btn = e.target.closest("[data-product]");
   if (btn) productField.value = btn.dataset.product;
 });

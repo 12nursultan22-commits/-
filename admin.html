@@ -97,8 +97,15 @@
       </div>
       <label>Бренд <input name="brand" required placeholder="Dior"></label>
       <label>Название <input name="name" required placeholder="Sauvage"></label>
-      <label>Объём <input name="volume" placeholder="EDP · 100 мл"></label>
-      <label>Цена, ₸ <input name="price" type="number" min="0" step="100" inputmode="numeric" required placeholder="72000"></label>
+      <div class="a-row">
+        <label>Объём <input name="volume" placeholder="EDP · 100 мл"></label>
+        <label>Цена, ₸ <input name="price" type="number" min="0" step="100" inputmode="numeric" required placeholder="72000"></label>
+      </div>
+      <p class="a-hint">Второй объём — если продаёте в двух размерах:</p>
+      <div class="a-row">
+        <label>Объём 2 <input name="volume2" placeholder="EDP · 50 мл"></label>
+        <label>Цена 2, ₸ <input name="price2" type="number" min="0" step="100" inputmode="numeric" placeholder="45000"></label>
+      </div>
       <label>Для кого
         <select name="category">
           <option value="women">Женский</option>

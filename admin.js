@@ -98,7 +98,7 @@ async function start() {
             <div class="a-item__title">${esc(p.brand)} — ${esc(p.name)}</div>
             <div class="a-item__sub">${esc(p.volume)} · ${CATEGORY[p.category] || ""}</div>
           </div>
-          <div class="a-item__price">${money(p.price)}</div>
+          <div class="a-item__price">${money(p.price)}${p.price2 ? `<br><small>${esc(p.volume2)}: ${money(p.price2)}</small>` : ""}</div>
           <div class="a-item__tags">
             ${p.hit ? '<span class="a-tag">Хит продаж</span>' : ""}
             ${p.inStock === false ? '<span class="a-tag a-tag--off">Нет в наличии</span>' : ""}
@@ -159,6 +159,13 @@ async function start() {
       catch (err) { toast(errorText(err)); }
     }
   });
+  // Второй объём: если заполнено одно поле, нужно и второе
+  pForm.querySelector('[value="save"]').addEventListener("click", () => {
+    const v2 = pForm.elements.volume2, p2 = pForm.elements.price2;
+    const half = !!v2.value.trim() !== !!p2.value;
+    p2.setCustomValidity(half && !p2.value ? "Укажите цену второго объёма" : "");
+    v2.setCustomValidity(half && !v2.value.trim() ? "Укажите второй объём" : "");
+  });
   pDialog.addEventListener("close", async () => {
     if (pDialog.returnValue !== "save") return;
     const f = new FormData(pForm);
@@ -167,6 +174,8 @@ async function start() {
       name: f.get("name").trim(),
       volume: f.get("volume").trim(),
       price: Number(f.get("price")) || 0,
+      volume2: f.get("volume2").trim(),
+      price2: Number(f.get("price2")) || 0,
       category: f.get("category"),
       sort: Number(f.get("sort")) || 0,
       hit: f.has("hit"),

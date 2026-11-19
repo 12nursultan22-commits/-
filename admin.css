@@ -95,3 +95,8 @@ body.admin { background: var(--camel-light); min-height: 100vh; }
 .a-photo__btns { display: grid; gap: 8px; }
 .a-form label.a-photo__pick { display: inline-block; text-align: center; font-size: 13px; cursor: pointer; }
 .a-item__thumb { float: left; width: 52px; height: 52px; object-fit: contain; background: #fff; border-radius: 8px; margin-right: 12px; border: 1px solid #f0e8de; }
+
+/* Два объёма в одну строку */
+.a-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.a-row small { font-weight: 400; color: var(--muted); }
+.a-hint { font-size: 13px; color: var(--muted); margin-bottom: -6px; }
