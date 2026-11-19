@@ -88,6 +88,13 @@
   <dialog class="a-dialog" id="productDialog">
     <form method="dialog" class="a-form" id="productForm">
       <h2 class="a-title" id="productDialogTitle">Аромат</h2>
+      <div class="a-photo">
+        <div class="a-photo__box" id="photoBox"><img id="photoPreview" alt="" hidden><span id="photoEmpty">Нет фото</span></div>
+        <div class="a-photo__btns">
+          <label class="a-btn a-photo__pick">📷 Выбрать фото<input type="file" accept="image/*" id="photoInput" hidden></label>
+          <button type="button" class="a-btn a-btn--danger" id="photoRemove" hidden>Убрать фото</button>
+        </div>
+      </div>
       <label>Бренд <input name="brand" required placeholder="Dior"></label>
       <label>Название <input name="name" required placeholder="Sauvage"></label>
       <label>Объём <input name="volume" placeholder="EDP · 100 мл"></label>

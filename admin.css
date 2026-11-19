@@ -83,3 +83,15 @@ body.admin { background: var(--camel-light); min-height: 100vh; }
   .a-tabs { justify-content: flex-start; }
   .a-tab { flex: 0 0 auto; padding: 12px 24px; }
 }
+
+/* Фото аромата */
+.a-photo { display: flex; gap: 14px; align-items: center; }
+.a-photo__box {
+  flex: 0 0 96px; height: 96px; border-radius: 12px; overflow: hidden;
+  background: var(--camel-light); display: grid; place-items: center;
+  font-size: 12px; color: var(--muted);
+}
+.a-photo__box img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.a-photo__btns { display: grid; gap: 8px; }
+.a-form label.a-photo__pick { display: inline-block; text-align: center; font-size: 13px; cursor: pointer; }
+.a-item__thumb { float: left; width: 52px; height: 52px; object-fit: contain; background: #fff; border-radius: 8px; margin-right: 12px; border: 1px solid #f0e8de; }

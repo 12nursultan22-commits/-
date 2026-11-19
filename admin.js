@@ -38,6 +38,7 @@ async function start() {
   let products = [];
   let reviews = [];
   let editing = null; // id редактируемой записи или null для новой
+  let photo = "";     // фото аромата (сжатая картинка) или ""
 
   // ---------- Вход / выход ----------
   $("loginForm").addEventListener("submit", async (e) => {
@@ -93,6 +94,7 @@ async function start() {
       .map((p) => `
         <li class="a-item">
           <div>
+            ${p.image ? `<img class="a-item__thumb" src="${esc(p.image)}" alt="">` : ""}
             <div class="a-item__title">${esc(p.brand)} — ${esc(p.name)}</div>
             <div class="a-item__sub">${esc(p.volume)} · ${CATEGORY[p.category] || ""}</div>
           </div>
@@ -121,10 +123,31 @@ async function start() {
       if (el.type === "checkbox") el.checked = !!d[el.name] || (el.name === "inStock" && d.inStock !== false);
       else el.value = d[el.name] ?? "";
     }
+    setPhoto(p?.image || "");
     pDialog.returnValue = "";
     pDialog.showModal();
   }
   $("addProduct").addEventListener("click", () => openProduct(null));
+
+  // ---------- Фото ----------
+  function setPhoto(src) {
+    photo = src;
+    $("photoPreview").src = src || "";
+    show($("photoPreview"), !!src);
+    show($("photoEmpty"), !src);
+    show($("photoRemove"), !!src);
+  }
+  $("photoRemove").addEventListener("click", () => setPhoto(""));
+  $("photoInput").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    try {
+      setPhoto(await compressImage(file));
+    } catch {
+      toast("Не удалось открыть фото. Попробуйте другое (JPG или PNG).");
+    }
+  });
   $("productList").addEventListener("click", async (e) => {
     const editId = e.target.dataset.edit;
     const delId = e.target.dataset.del;
@@ -148,6 +171,7 @@ async function start() {
       sort: Number(f.get("sort")) || 0,
       hit: f.has("hit"),
       inStock: f.has("inStock"),
+      image: photo,
     };
     try {
       if (editing) await fb.update("products", editing, data);
@@ -233,4 +257,36 @@ async function start() {
       } catch (err) { toast(errorText(err)); }
       finally { btn.disabled = false; }
     }));
+}
+
+// Уменьшает фото до 600 px и сжимает в JPEG (~30–60 КБ), чтобы хранить его в базе.
+async function compressImage(file, max = 600) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((resolve, reject) => {
+      const i = new Image();
+      i.onload = () => resolve(i);
+      i.onerror = reject;
+      i.src = url;
+    });
+    const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const w = Math.round(img.naturalWidth * scale);
+    const h = Math.round(img.naturalHeight * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff"; // прозрачный фон PNG → белый
+    ctx.fillRect(0, 0, w, h);
+    ctx.drawImage(img, 0, 0, w, h);
+    let q = 0.82;
+    let data = canvas.toDataURL("image/jpeg", q);
+    while (data.length > 250000 && q > 0.4) { // держим запись в базе небольшой
+      q -= 0.1;
+      data = canvas.toDataURL("image/jpeg", q);
+    }
+    return data;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 }

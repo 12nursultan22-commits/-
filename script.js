@@ -11,6 +11,9 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const money = (n) => Number(n || 0).toLocaleString("ru-RU").replace(/ |,/g, " ") + " ₸";
 
+// Разрешаем только картинки (сжатые в админке) или ссылки https
+const safeImg = (src) => typeof src === "string" && /^(data:image\/(jpeg|png|webp);base64,|https:\/\/)/.test(src);
+
 // ---------- Ароматы ----------
 let products = DEFAULT_PRODUCTS;
 let filter = "all";
@@ -26,6 +29,9 @@ function renderProducts() {
   productsEl.innerHTML = shown.map((p) => `
     <article class="product${p.hit ? " product--hit" : ""}${p.inStock === false ? " product--out" : ""}">
       ${p.hit ? '<span class="product__hit">Хит продаж</span>' : ""}
+      <div class="product__img">${safeImg(p.image)
+        ? `<img src="${esc(p.image)}" alt="${esc(`${p.brand} ${p.name}`)}" loading="lazy">`
+        : '<img class="product__ph" src="images/logo.png" alt="">'}</div>
       <p class="product__brand">${esc(p.brand)}</p>
       <h3 class="product__name">${esc(p.name)}</h3>
       <p class="product__meta">${esc(p.volume)}</p>
