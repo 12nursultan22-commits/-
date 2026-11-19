@@ -11,13 +11,13 @@ export const DEFAULT_PRODUCTS = [
   { brand: "Yves Saint Laurent", name: "Libre", volume: "EDP · 90 мл", price: 68000, category: "women", hit: false, inStock: true, sort: 60 },
 ];
 
-// ЧЕРНОВИК: придуманные отзывы для пробной версии.
+// ЧЕРНОВИК: придуманные отзывы-примеры. Скрыты (visible: false), на сайте не показываются.
 // Перед запуском замените их настоящими отзывами клиентов (в админке).
 export const DEFAULT_REVIEWS = [
-  { name: "Айгерим", perfume: "Coco Mademoiselle", text: "Давно искала оригинальный Chanel и боялась нарваться на подделку. Здесь показали коробку, коды, всё объяснили. Аромат держится весь день!", visible: true, sort: 10 },
-  { name: "Данияр", perfume: "Dior Sauvage", text: "Брал в подарок брату. Помогли выбрать, красиво упаковали, ещё и в рассрочку через Kaspi Red. Брат в восторге.", visible: true, sort: 20 },
-  { name: "Мадина", perfume: "Baccarat Rouge 540", text: "Пришла на Сауран базар просто понюхать, ушла с флаконом 😊 Девушка-консультант очень приятная, подобрала аромат под меня.", visible: true, sort: 30 },
-  { name: "Ерлан", perfume: "Creed Aventus", text: "Цены ниже, чем в Актобе, а качество то же — оригинал. Заказал через WhatsApp, всё быстро и без лишних вопросов.", visible: true, sort: 40 },
-  { name: "Асель", perfume: "YSL Libre", text: "Покупаю здесь уже третий раз. Всегда честно, всегда оригинал. Теперь советую всем подругам.", visible: true, sort: 50 },
-  { name: "Нурлан", perfume: "Tom Ford Lost Cherry", text: "Жене на день рождения. Сначала сомневался из-за цены, но аромат того стоит — шлейф шикарный. Спасибо Royal Select!", visible: true, sort: 60 },
+  { name: "Айгерим", perfume: "Coco Mademoiselle", text: "Давно искала оригинальный Chanel и боялась нарваться на подделку. Здесь показали коробку, коды, всё объяснили. Аромат держится весь день!", visible: false, sort: 10 },
+  { name: "Данияр", perfume: "Dior Sauvage", text: "Брал в подарок брату. Помогли выбрать, красиво упаковали, ещё и в рассрочку через Kaspi Red. Брат в восторге.", visible: false, sort: 20 },
+  { name: "Мадина", perfume: "Baccarat Rouge 540", text: "Пришла на Сауран базар просто понюхать, ушла с флаконом 😊 Девушка-консультант очень приятная, подобрала аромат под меня.", visible: false, sort: 30 },
+  { name: "Ерлан", perfume: "Creed Aventus", text: "Цены ниже, чем в Актобе, а качество то же — оригинал. Заказал через WhatsApp, всё быстро и без лишних вопросов.", visible: false, sort: 40 },
+  { name: "Асель", perfume: "YSL Libre", text: "Покупаю здесь уже третий раз. Всегда честно, всегда оригинал. Теперь советую всем подругам.", visible: false, sort: 50 },
+  { name: "Нурлан", perfume: "Tom Ford Lost Cherry", text: "Жене на день рождения. Сначала сомневался из-за цены, но аромат того стоит — шлейф шикарный. Спасибо Royal Select!", visible: false, sort: 60 },
 ];

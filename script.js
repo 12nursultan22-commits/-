@@ -50,8 +50,11 @@ document.getElementById("search").addEventListener("input", (e) => {
 // ---------- Отзывы ----------
 let reviews = DEFAULT_REVIEWS;
 function renderReviews() {
-  document.getElementById("reviewsList").innerHTML = reviews
-    .filter((r) => r.visible !== false)
+  const shown = reviews.filter((r) => r.visible !== false);
+  // Нет опубликованных отзывов — прячем раздел и пункт меню
+  document.getElementById("reviews").hidden = shown.length === 0;
+  document.querySelector('.nav a[href="#reviews"]').hidden = shown.length === 0;
+  document.getElementById("reviewsList").innerHTML = shown
     .map((r) => `
       <blockquote class="review">
         <p class="review__stars">★★★★★</p>
