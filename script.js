@@ -16,6 +16,8 @@ const safeImg = (src) => typeof src === "string" && /^(data:image\/(jpeg|png|web
 
 // Объёмы: «EDP · 100 мл» → на кнопке «100 мл»
 const shortVolume = (v) => (String(v).match(/\d+[.,]?\d*\s*(мл|ml)/i) || [v])[0];
+// «100» → «100 мл»
+const withMl = (v) => (/^\s*\d+([.,]\d+)?\s*$/.test(String(v ?? "")) ? `${String(v).trim()} мл` : String(v ?? "").trim());
 const hasTwo = (p) => p.volume2 && p.price2;
 const orderName = (p, volume) => `${p.brand} ${p.name}${volume ? `, ${volume}` : ""}`;
 function variantsHtml(p) {
@@ -52,9 +54,9 @@ function renderProducts() {
       <p class="product__price">${p.inStock === false ? "Нет в наличии" : money(p.price)}</p>
       <a href="#order" class="product__btn" data-product="${esc(orderName(p, p.volume))}">${p.inStock === false ? "Уточнить" : "Заказать"}</a>
       ${p.preorder ? `<div class="preorder">
-        <p class="preorder__title">Полный флакон${p.preorderVolume ? ` ${esc(p.preorderVolume)}` : ""} — предзаказ</p>
+        <p class="preorder__title">Полный флакон${p.preorderVolume ? ` ${esc(withMl(p.preorderVolume))}` : ""} — предзаказ</p>
         <p class="preorder__price">${p.preorderPrice ? money(p.preorderPrice) : "Цена по запросу"}</p>
-        <a href="#preorder" class="preorder__btn" data-preorder="${esc(`${p.brand} ${p.name}`)}" data-preorder-volume="${esc(p.preorderVolume || "")}">Предзаказ</a>
+        <a href="#preorder" class="preorder__btn" data-preorder="${esc(`${p.brand} ${p.name}`)}" data-preorder-volume="${esc(withMl(p.preorderVolume))}">Предзаказ</a>
       </div>` : ""}
     </article>`).join("");
   emptyEl.hidden = shown.length > 0;
