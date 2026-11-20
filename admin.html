@@ -116,6 +116,11 @@
       <label>Порядок (меньше — выше в списке) <input name="sort" type="number" inputmode="numeric" value="100"></label>
       <label class="a-check"><input type="checkbox" name="hit"> Хит продаж</label>
       <label class="a-check"><input type="checkbox" name="inStock" checked> В наличии</label>
+      <label class="a-check"><input type="checkbox" name="preorder" id="preorderToggle"> Предзаказ полного флакона</label>
+      <div class="a-row" id="preorderFields" hidden>
+        <label>Объём флакона <input name="preorderVolume" placeholder="100 мл"></label>
+        <label>Цена, ₸ <input name="preorderPrice" type="number" min="0" step="100" inputmode="numeric" placeholder="по запросу"></label>
+      </div>
       <div class="a-actions">
         <button class="a-btn" value="cancel" formnovalidate>Отмена</button>
         <button class="btn btn--dark" value="save">Сохранить</button>

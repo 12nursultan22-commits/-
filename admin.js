@@ -102,6 +102,7 @@ async function start() {
           <div class="a-item__tags">
             ${p.hit ? '<span class="a-tag">Хит продаж</span>' : ""}
             ${p.inStock === false ? '<span class="a-tag a-tag--off">Нет в наличии</span>' : ""}
+            ${p.preorder ? '<span class="a-tag">Предзаказ</span>' : ""}
           </div>
           <div class="a-item__actions">
             <button class="a-btn" data-edit="${p.id}">Изменить</button>
@@ -124,10 +125,12 @@ async function start() {
       else el.value = d[el.name] ?? "";
     }
     setPhoto(p?.image || "");
+    show($("preorderFields"), !!d.preorder);
     pDialog.returnValue = "";
     pDialog.showModal();
   }
   $("addProduct").addEventListener("click", () => openProduct(null));
+  $("preorderToggle").addEventListener("change", (e) => show($("preorderFields"), e.target.checked));
 
   // ---------- Фото ----------
   function setPhoto(src) {
@@ -180,6 +183,9 @@ async function start() {
       sort: Number(f.get("sort")) || 0,
       hit: f.has("hit"),
       inStock: f.has("inStock"),
+      preorder: f.has("preorder"),
+      preorderVolume: f.get("preorderVolume").trim(),
+      preorderPrice: Number(f.get("preorderPrice")) || 0,
       image: photo,
     };
     try {

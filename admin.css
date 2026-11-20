@@ -100,3 +100,6 @@ body.admin { background: var(--camel-light); min-height: 100vh; }
 .a-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .a-row small { font-weight: 400; color: var(--muted); }
 .a-hint { font-size: 13px; color: var(--muted); margin-bottom: -6px; }
+
+/* Скрытые элементы всегда скрыты */
+[hidden] { display: none !important; }

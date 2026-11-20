@@ -292,3 +292,23 @@ a { color: inherit; text-decoration: none; }
   font: 500 12px/1 var(--sans); color: var(--muted); cursor: pointer;
 }
 .vol.active { border-color: var(--camel); background: var(--camel); color: #fff; }
+
+/* Предзаказ */
+.form--light { margin: 0 auto; }
+.form--light input, .form--light textarea { border: 1px solid #e3d6c6; }
+.form--light input:focus, .form--light textarea:focus { outline: 2px solid var(--camel); border-color: transparent; }
+.form--light .btn { width: 100%; margin-top: 6px; }
+.form label small { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); }
+.preorder {
+  margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e3d6c6;
+}
+.preorder__title { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--camel-dark); }
+.preorder__price { font-size: 14px; font-weight: 600; margin: 4px 0 8px; }
+.preorder__btn {
+  display: block; padding: 9px; border-radius: 999px; background: var(--camel); color: #fff;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 500;
+}
+.preorder__btn:hover { background: var(--camel-dark); }
+
+/* Скрытые элементы всегда скрыты */
+[hidden] { display: none !important; }

@@ -51,6 +51,11 @@ function renderProducts() {
       ${variantsHtml(p)}
       <p class="product__price">${p.inStock === false ? "Нет в наличии" : money(p.price)}</p>
       <a href="#order" class="product__btn" data-product="${esc(orderName(p, p.volume))}">${p.inStock === false ? "Уточнить" : "Заказать"}</a>
+      ${p.preorder ? `<div class="preorder">
+        <p class="preorder__title">Полный флакон${p.preorderVolume ? ` ${esc(p.preorderVolume)}` : ""} — предзаказ</p>
+        <p class="preorder__price">${p.preorderPrice ? money(p.preorderPrice) : "Цена по запросу"}</p>
+        <a href="#preorder" class="preorder__btn" data-preorder="${esc(`${p.brand} ${p.name}`)}" data-preorder-volume="${esc(p.preorderVolume || "")}">Предзаказ</a>
+      </div>` : ""}
     </article>`).join("");
   emptyEl.hidden = shown.length > 0;
 }
@@ -124,23 +129,34 @@ productsEl.addEventListener("click", (e) => {
       card.querySelector(".product__price").textContent = money(vol.dataset.price);
     return;
   }
+  const pre = e.target.closest("[data-preorder]");
+  if (pre) {
+    const form = document.getElementById("preorderForm");
+    form.elements.product.value = pre.dataset.preorder;
+    form.elements.volume.value = pre.dataset.preorderVolume;
+    return;
+  }
   const btn = e.target.closest("[data-product]");
   if (btn) productField.value = btn.dataset.product;
 });
 
 // Отправка заявки в WhatsApp
-document.getElementById("orderForm").addEventListener("submit", (e) => {
+// Отправка заявки и предзаказа в WhatsApp
+function sendToWhatsApp(e) {
   e.preventDefault();
   const f = new FormData(e.target);
   const text = [
-    "Здравствуйте! Заявка с сайта Royal Select:",
+    `Здравствуйте! ${e.target.dataset.title}:`,
     `Имя: ${f.get("name")}`,
     `Телефон: ${f.get("phone")}`,
     f.get("product") && `Аромат: ${f.get("product")}`,
+    f.get("volume") && `Объём: ${f.get("volume")}`,
     f.get("comment") && `Комментарий: ${f.get("comment")}`,
   ].filter(Boolean).join("\n");
   window.open(waLink(text), "_blank");
-});
+}
+document.getElementById("orderForm").addEventListener("submit", sendToWhatsApp);
+document.getElementById("preorderForm").addEventListener("submit", sendToWhatsApp);
 
 // Плавающая кнопка WhatsApp
 document.getElementById("waButton").href = waLink("Здравствуйте! Хочу проконсультироваться по ароматам.");
